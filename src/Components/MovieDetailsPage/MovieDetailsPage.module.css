@@ -1,0 +1,61 @@
+.MovieDetailsPage {
+  display: flex;
+  padding: 0;
+}
+
+.movieMainInfo {
+  margin-top: 4px;
+  display: flex;
+  font-family: Segoe UI;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+section .movieMainBtn {
+  position: relative;
+  top: 1px;
+  border-style: none;
+  background-color: hsl(0, 0%, 98%);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.movieMainImage {
+  margin-right: 10px;
+}
+.movieTitle {
+  padding: 0;
+  margin: 0;
+  padding-top: 5px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.movieGenresItems {
+  display: inline-flex;
+}
+.movieGenresInfo {
+  margin: 0;
+  padding: 2px;
+}
+
+.movieAddInfoTitle {
+  padding-left: 2px;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Cast {
+  padding-left: 2px;
+  font-family: Segoe UI;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.movieAddInfo {
+  border: 1.5px solid rgb(179, 182, 179);
+  display: block;
+  box-shadow: 0 1px 5px 0 rgb(0 0 0 / 30%), 0 1px 1px 0 rgb(0 0 0 / 10%),
+    0 2px 1px -1px rgb(0 0 0 / 10%);
+}

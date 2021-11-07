@@ -1,0 +1,21 @@
+.ContactsList {
+  font-family: Segoe UI;
+  font-size: 16px;
+  font-weight: 500;
+}
+ul {
+  padding-left: 15px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+}
+
+li::before {
+  content: '✺';
+}
+
+p {
+  margin: 10px;
+}
