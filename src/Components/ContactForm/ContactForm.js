@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../Redux/contacts-actions';
 import s from './ContactForm.module.css';
 import { v4 as uuidv4 } from 'uuid';
 
 function ContactForm(props) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const options = { name, number };
   const inputNameId = uuidv4();
   const inputNumberId = uuidv4();
+  const id = uuidv4();
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const contact = { name, number, id };
 
   const handleChangeEvent = e => {
     const { name, value } = e.target;
@@ -29,7 +32,8 @@ function ContactForm(props) {
   const handleSubmit = e => {
     e.preventDefault();
     const { name, number } = e.target;
-    props.onSubmit(options);
+    // props.onSubmit(contact);
+    props.onSubmitForm(contact);
     name.value = '';
     number.value = '';
   };
@@ -63,4 +67,16 @@ function ContactForm(props) {
   );
 }
 
-export default ContactForm;
+// const mapStateToProps = state => {
+//   return {
+//     submitVal: state.contacts.items,
+//   };
+// };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmitForm: contact => dispatch(actions.submitForm(contact)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ContactForm);
