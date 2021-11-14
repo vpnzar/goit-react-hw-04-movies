@@ -1,33 +1,26 @@
-// import React from 'react';
-import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../Redux/contacts-actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteItem } from '../../Redux/contacts-actions';
 import s from './ContactList.module.css';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { getVisibleContacts } from '../../Redux/contacts-selectors';
 
-const ContactList = ({ contacts, onDeleteItem }) => {
-  const [contactsLocal, setLocalContacts] = useState([]);
-  console.log(contacts);
+const ContactList = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getVisibleContacts);
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  useEffect(() => {
-    const contactsLocal = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contactsLocal);
-    setLocalContacts(parsedContacts);
-  }, [contacts]);
+  if (contacts.length === 0) {
+    return <h2>No results were found...</h2>;
+  }
 
   return (
     <div className={s.ContactsList}>
       <ul>
-        {contactsLocal.map(({ name, id, number }) => (
+        {contacts.map(({ name, id, number }) => (
           <li key={id}>
             <p>{name + ': ' + number}</p>
             <button
               onClick={() => {
-                onDeleteItem(id);
+                dispatch(deleteItem(id));
               }}
             >
               Delete
@@ -39,23 +32,23 @@ const ContactList = ({ contacts, onDeleteItem }) => {
   );
 };
 
-// ContactList.propTypes = {
-//   contacts: PropTypes.array,
-//   onDeleteId: PropTypes.func.isRequired,
+ContactList.propTypes = {
+  contacts: PropTypes.array,
+};
+
+// const mapStateToProps = state => {
+//   return {
+//     contacts: state.contacts.items,
+//   };
 // };
 
-const mapStateToProps = state => {
-  return {
-    contacts: state.contacts.items,
-    // onDeleteId: state.contacts.items,
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onDeleteItem: id => dispatch(actions.deleteItem(id)),
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onDeleteItem: id => dispatch(actions.deleteItem(id)),
-    // onFilterItems: e => dispatch(actions.filterItems(e.nativeEvent.data)),
-  };
-};
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+// export default connect(mapStateToProps)(ContactList);
+
+export default ContactList;

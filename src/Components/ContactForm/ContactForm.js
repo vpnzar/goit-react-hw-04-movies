@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../Redux/contacts-actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitForm } from '../../Redux/contacts-actions';
 import s from './ContactForm.module.css';
+import { getContacts } from '../../Redux/contacts-selectors';
 import { v4 as uuidv4 } from 'uuid';
 
-function ContactForm(props) {
+function ContactForm() {
+  const dispatch = useDispatch();
+  const contactsAll = useSelector(getContacts);
   const inputNameId = uuidv4();
   const inputNumberId = uuidv4();
   const id = uuidv4();
@@ -32,8 +35,10 @@ function ContactForm(props) {
   const handleSubmit = e => {
     e.preventDefault();
     const { name, number } = e.target;
-    // props.onSubmit(contact);
-    props.onSubmitForm(contact);
+    const filterResult = contactsAll.some(value => value.name === contact.name);
+    if (!filterResult) {
+      dispatch(submitForm(contact));
+    } else alert(`${contact.name} is already in contacts`);
     name.value = '';
     number.value = '';
   };
@@ -73,10 +78,12 @@ function ContactForm(props) {
 //   };
 // };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubmitForm: contact => dispatch(actions.submitForm(contact)),
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onSubmitForm: contact => dispatch(submitForm(contact)),
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(ContactForm);
+// export default connect(null, mapDispatchToProps)(ContactForm);
+
+export default ContactForm;

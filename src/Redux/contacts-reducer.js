@@ -1,5 +1,4 @@
-import { combineReducers } from 'redux';
-import contactsTypes from './contacts-types';
+import { createReducer } from '@reduxjs/toolkit';
 
 const initState = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -8,39 +7,45 @@ const initState = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-const itemsReducer = (state = initState, { type, payload }) => {
-  console.log(payload);
-  console.log(type);
-
-  switch (type) {
-    case contactsTypes.SUBMIT_FORM:
-      return [...state, payload];
-
-    case contactsTypes.DELETE_ITEM:
-      return state.filter(contact => contact.id !== payload);
-
-    case contactsTypes.FILTER_ITEM:
-      return payload !== null
-        ? state.filter(contact =>
-            contact.name.toLowerCase().includes(payload.toLowerCase()),
-          )
-        : state;
-
-    default:
-      return state;
-  }
-};
-const filterReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case contactsTypes.SEARCH_VAL:
-      return payload;
-
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({
-  items: itemsReducer,
-  filter: filterReducer,
+export const itemsReducer = createReducer(initState, {
+  'form/submit': (state, { payload }) => [...state, payload],
+  'list/delete': (state, { payload }) =>
+    state.filter(contact => contact.id !== payload),
 });
+
+export const filterReducer = createReducer('', {
+  'list/filter': (_, { payload }) => payload,
+});
+
+// const itemsReducer = (state = initState, { type, payload }) => {
+//   console.log(payload);
+//   console.log(type);
+
+//   switch (type) {
+//     case contactsTypes.SUBMIT_FORM:
+//       return [...state, payload];
+
+//     case contactsTypes.DELETE_ITEM:
+//       return state.filter(contact => contact.id !== payload);
+
+//     case contactsTypes.FILTER_ITEM:
+//       return payload !== null
+// ? state.filter(contact =>
+//             contact.name.toLowerCase().includes(payload.toLowerCase()),
+//           )
+//         : state;
+
+//     default:
+//       return state;
+//   }
+// };
+
+// const filterReducer = (state = '', { type, payload }) => {
+//   switch (type) {
+//     case contactsTypes.SEARCH_VAL:
+//       return payload;
+
+//     default:
+//       return state;
+//   }
+// };
